@@ -1,0 +1,5 @@
+1. Install node.js apabila belum ada
+2. Buka kode pada code editor, kemudian buka terminal pada directory kode berada
+3. jalankan npm install pada terminal untuk menginstall depedencies yang dibutuhkan
+4. jalankan npm start untuk menjalankan aplikasi
+5. aplikasi akan dijalankan pada localhost:3000 secara default, pastikan port tersebut tidak digunakan
