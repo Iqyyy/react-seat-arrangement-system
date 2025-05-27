@@ -64,7 +64,7 @@ export const Dashboard = () => {
             </div>
             <div className='flex flex-col lg:flex-row gap-6'>
                 <div className='flex-1'>
-                    <div clasName='mb-4 flex items-center gap-3 pb-3'>
+                    <div className='mb-4 flex items-center gap-3 pb-3'>
                         <button onClick={handleTambahMeja} className='bg-blue-600 text-white mr-2 px-4 py-2 rounded hover:bg-blue-700 righ-2'>
                             Tambah Meja
                         </button>
@@ -83,21 +83,37 @@ export const Dashboard = () => {
                                 <h3 className='text-center font-semibold mb-2'>Meja {mejaIndex + 1}</h3>
                                 <div className='grid grid-cols-2 gap-2'>
                                     {Array.from({ length: 4 }).map((_, kursiIndex) => {
-                                        const peserta = arrangedPeserta[mejaIndex * 4 + kursiIndex]
+                                        const globalIndex = mejaIndex * 4 + kursiIndex;
+                                        const currentPeserta = arrangedPeserta[globalIndex];
 
                                         return (
                                             <div
                                                 key={kursiIndex}
-                                                className={`p-2 rounded text-sm text-center border ${peserta ? peserta.hadir ? 'bg-green-200' : 'bg-red-200' : 'bg-gray-100'}`}>
-                                                {peserta ? peserta.nama : 'kosong'}
+                                                onClick={() => {
+                                                    if (currentPeserta) {
+                                                        const pesertaIndex = peserta.findIndex(p => p.nama === currentPeserta.nama);
+                                                        if (pesertaIndex !== -1) toggleHadir(pesertaIndex);
+                                                    } else {
+                                                        const newPeserta = { nama: `Peserta ${peserta.length + 1}`, hadir: true };
+                                                        setPeserta([...peserta, newPeserta]);
+                                                    }
+                                                }}
+                                                className={`p-2 rounded text-sm text-center border cursor-pointer ${currentPeserta
+                                                    ? currentPeserta.hadir
+                                                        ? 'bg-green-200'
+                                                        : 'bg-red-200'
+                                                    : 'bg-gray-100'
+                                                    }`}
+                                            >
+                                                {currentPeserta ? currentPeserta.nama : 'Kosong'}
                                             </div>
-                                        )
+                                        );
                                     })}
                                 </div>
                             </div>
-
                         ))}
                     </div>
+
                     <div className="mt-6">
                         <button onClick={handlePrint} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                             Cetak Layout
